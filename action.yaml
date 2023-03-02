@@ -13,3 +13,4 @@ runs:
     - uses: actions/checkout@v3
     - id: gerrit-checkout
       run: git fetch origin ${{ inputs.gerrit-refspec }} && git checkout FETCH_HEAD
+      shell: bash

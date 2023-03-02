@@ -1,0 +1,15 @@
+---
+name: "checkout-gerrit-change"
+description: "Checkout a mirrored Gerrit change"
+
+inputs:
+  gerrit-refspec:
+    description: "The Gerrit refspec for the change, eg: refs/changes/YY/NNYY/Z"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - id: gerrit-checkout
+      run: git fetch origin ${{ inputs.gerrit-refspec }} && git checkout FETCH_HEAD

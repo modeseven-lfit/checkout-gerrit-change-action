@@ -6,10 +6,17 @@ inputs:
   gerrit-refspec:
     description: "The Gerrit refspec for the change, eg: refs/changes/YY/NNYY/Z"
     required: true
+  delay:
+    description: "Delay in seconds to wait to make sure replication has finished. Default: 10s"
+    required: false
+    default: "10s"
 
 runs:
   using: "composite"
   steps:
+    - id: delay-checkout
+      run: sleep ${{ inputs.delay }}
+      shell: bash
     - uses: actions/checkout@v3
     - id: gerrit-checkout
       run: git fetch origin ${{ inputs.gerrit-refspec }} && git checkout FETCH_HEAD

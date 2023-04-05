@@ -10,6 +10,10 @@ inputs:
     description: "Delay in seconds to wait to make sure replication has finished. Default: 10s"
     required: false
     default: "10s"
+  fetch-depth:
+    description: "Number of commits to fetch. 0 indicates all history for all branches and tags. Default 1"
+    required: false
+    default: "1"
 
 runs:
   using: "composite"
@@ -18,6 +22,8 @@ runs:
       run: sleep ${{ inputs.delay }}
       shell: bash
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: ${{ inputs.fetch-depth }}
     - id: gerrit-checkout
       run: git fetch origin ${{ inputs.gerrit-refspec }} && git checkout FETCH_HEAD
       shell: bash

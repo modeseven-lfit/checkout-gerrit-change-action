@@ -1,0 +1,36 @@
+---
+name: Lint GitHub Actions workflows
+
+# yamllint disable-line rule:truthy
+on: [push, pull_request]
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download actionlint
+        id: get_actionlint
+        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+        shell: bash
+      - name: Check workflow files
+        run: ${{ steps.get_actionlint.outputs.executable }} -color
+        shell: bash
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Run static analysis and format checkers (PR)
+        # yamllint disable-line rule:line-length
+        run: SKIP=actionlint pipx run pre-commit run --all-files --show-diff-on-failure
+        if: github.event_name != 'push'
+      - name: Run static analysis and format checkers (PUSH)
+        # Skip the no-commit-to-branch check on push as it's already too late
+        # and it should have come in via PR which _would_ have caught it
+        # yamllint disable-line rule:line-length
+        run: SKIP=actionlint,no-commit-to-branch pipx run pre-commit run --all-files --show-diff-on-failure
+        if: github.event_name != 'pull_request'

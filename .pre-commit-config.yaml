@@ -1,6 +1,9 @@
 ---
 ci:
   autofix_commit_msg: "Chore: pre-commit autoupdate"
+  skip:
+    # pre-commit.ci does not have actionlint installed
+    - actionlint
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -47,3 +50,8 @@ repos:
     rev: v0.9.0.2
     hooks:
       - id: shellcheck
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.6.24
+    hooks:
+      - id: actionlint

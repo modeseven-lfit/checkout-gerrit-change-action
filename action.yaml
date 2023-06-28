@@ -24,6 +24,7 @@ inputs:
       triggered a workflow, this defaults to the reference or SHA for that
       event. Otherwise, uses the default branch.
     required: false
+    default: ${{ github.sha }}
 
 runs:
   using: "composite"
@@ -35,7 +36,7 @@ runs:
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
         repository: ${{ inputs.repository }}
-        ref: ${{ inputs.repository }}
+        ref: ${{ inputs.ref }}
     - id: gerrit-checkout
       run: git fetch origin ${{ inputs.gerrit-refspec }} && git checkout FETCH_HEAD
       shell: bash

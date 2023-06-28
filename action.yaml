@@ -14,6 +14,16 @@ inputs:
     description: "Number of commits to fetch. 0 indicates all history for all branches and tags. Default 1"
     required: false
     default: "1"
+  repository:
+    description: "Repository name with owner. For example actions/checkout"
+    required: false
+    default: ${{ github.repository }}
+  ref:
+    description: >
+      The branch, tag or SHA to checkout. When checking out the repository that
+      triggered a workflow, this defaults to the reference or SHA for that
+      event. Otherwise, uses the default branch.
+    required: false
 
 runs:
   using: "composite"
@@ -24,6 +34,8 @@ runs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
+        repository: ${{ inputs.repository }}
+        ref: ${{ inputs.repository }}
     - id: gerrit-checkout
       run: git fetch origin ${{ inputs.gerrit-refspec }} && git checkout FETCH_HEAD
       shell: bash

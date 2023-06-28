@@ -25,6 +25,15 @@ inputs:
       event. Otherwise, uses the default branch.
     required: false
     default: ${{ github.sha }}
+  token:
+    description: >
+      Personal Access token (PAT) used to fetch the repository. The PAT is configured
+      with the local git config, which enables your scripts to run authenticated git
+      commands. The post-job step removes the PAT.
+
+      We recommend using a service account with the least permissions necessary.
+      Also, when generating a new PAT, select the least scopes necessary.
+    default: ${{ github.token }}
 
 runs:
   using: "composite"
@@ -37,6 +46,7 @@ runs:
         fetch-depth: ${{ inputs.fetch-depth }}
         repository: ${{ inputs.repository }}
         ref: ${{ inputs.ref }}
+        token: ${{ inputs.token }}
     - id: gerrit-checkout
       run: git fetch origin ${{ inputs.gerrit-refspec }} && git checkout FETCH_HEAD
       shell: bash

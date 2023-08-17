@@ -73,7 +73,8 @@ runs:
 
         fetch_from_gerrit()
         {
-          if [ "${GERRIT_URL}x" == "x" ] then
+          if [ "${GERRIT_URL}x" == "x" ]
+          then
             report_error_and_exit "$1"
           fi
 

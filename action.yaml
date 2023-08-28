@@ -59,8 +59,10 @@ runs:
         token: ${{ inputs.token }}
         submodules: ${{ inputs.submodules }}
     - id: gerrit-checkout
-      shell: bash -x --noprofile --norc {0}
+      shell: bash --noprofile --norc {0}
       run: |
+        set -x
+
         report_error_and_exit()
         {
           default="fatal: couldn't find remote ref ${{ inputs.gerrit-refspec }}"

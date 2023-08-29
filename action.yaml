@@ -59,6 +59,8 @@ runs:
         token: ${{ inputs.token }}
         submodules: ${{ inputs.submodules }}
     - id: gerrit-checkout
+      env:
+        GERRIT_URL: ${{ vars.GERRIT_URL }}
       shell: bash --noprofile --norc {0}
       run: |
         set -x
@@ -75,7 +77,7 @@ runs:
 
         fetch_from_gerrit()
         {
-          if [ "${{ vars.GERRIT_URL }}x" == "x" ]
+          if [ "${GERRIT_URL}x" == "x" ]
           then
             report_error_and_exit "$1"
           fi

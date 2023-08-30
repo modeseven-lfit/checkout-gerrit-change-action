@@ -37,6 +37,12 @@ inputs:
       We recommend using a service account with the least permissions necessary.
       Also, when generating a new PAT, select the least scopes necessary.
     default: ${{ github.token }}
+  gerrit-url:
+    description: |
+      The base URL for the gerrit server. This is used if ref can't be found in
+      the GitHub repository
+    required: false
+    default: ""
   submodules:
     description: >
       Whether to checkout submodules: `true` to checkout submodules or
@@ -59,9 +65,8 @@ runs:
         token: ${{ inputs.token }}
         submodules: ${{ inputs.submodules }}
     - id: gerrit-checkout
-      env:
-        GERRIT_URL: ${{ vars.GERRIT_URL }}
       shell: bash --noprofile --norc {0}
+      # yamllint disable rule:line-length
       run: |
         set -x
 
@@ -77,12 +82,12 @@ runs:
 
         fetch_from_gerrit()
         {
-          if [ "${GERRIT_URL}x" == "x" ]
+          if [ "${{ inputs.gerrit-url }}x" == "x" ]
           then
             report_error_and_exit "$1"
           fi
 
-          error=$(git fetch ${GERRIT_URL}${{ inputs.gerrit-project }} ${{ inputs.gerrit-refspec }} 2>&1 > /dev/null)
+          error=$(git fetch ${{ inputs.gerrit-url }}/${{ inputs.gerrit-project }} ${{ inputs.gerrit-refspec }} 2>&1 > /dev/null)
           exit_code=$?
           if [ $exit_code -ne 0 ]
           then

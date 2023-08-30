@@ -43,6 +43,10 @@ Checkout a mirrored Gerrit change.
       # Default:
       token: ${{ github.token }}
 
+      # The base URL for the gerrit server. This is used if the ref can't be
+      # found in the GitHub repository
+      gerrit-url: ${{ vars.GERRIT_URL }}
+
       # Whether to checkout submodules: `true` to checkout submodules or
       # `recursive` to recursively checkout submodules.
       #

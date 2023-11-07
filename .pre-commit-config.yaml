@@ -1,13 +1,10 @@
 ---
 ci:
   autofix_commit_msg: "Chore: pre-commit autoupdate"
-  skip:
-    # pre-commit.ci does not have actionlint installed
-    - actionlint
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: f71fa2c1f9cf5cb705f73dffe4b21f7c61470ba9 # frozen: v4.4.0
+    rev: c4a0b883114b00d8d76b479c820ce7950211c99b # frozen: v4.5.0
     hooks:
       - id: trailing-whitespace
       - id: check-added-large-files
@@ -35,7 +32,7 @@ repos:
       - id: gitlint
 
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: 6fd1ced85fc139abd7f5ab4f3d78dab37592cd5e # frozen: v3.0.0-alpha.9-for-vscode
+    rev: fc260393cc4ec09f8fc0a5ba4437f481c8b55dc1 # frozen: v3.0.3
     hooks:
       - id: prettier
         stages: [commit]
@@ -47,11 +44,11 @@ repos:
         types: [yaml]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: 375289a39f5708101b1f916eb729e8d6da96993f # frozen: v0.9.0.5
+    rev: 4de1378e4cd853bfc2b111b05fff35e2dbf809a3 # frozen: v0.9.0.6
     hooks:
       - id: shellcheck
 
   - repo: https://github.com/rhysd/actionlint
-    rev: fd7ba3c382e13dcc0248e425b4cbc3f1185fa3ee # frozen: v1.6.24
+    rev: ea8102762106cdca9c88829f1295b39a544706f3 # frozen: v1.6.26
     hooks:
       - id: actionlint

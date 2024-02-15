@@ -102,3 +102,8 @@ runs:
           fetch_from_gerrit "$error"
         fi
         git checkout FETCH_HEAD
+
+        if [ ${{ inputs.submodules }} ~= true|True ]
+        then
+          git submodule update
+        fi

@@ -103,7 +103,7 @@ runs:
         fi
         git checkout FETCH_HEAD
 
-        if [ ${{ inputs.submodules }} ~= true|True ]
+        if [[ ${{ inputs.submodules }} = [Tt]rue ]]
         then
           git submodule update
         fi

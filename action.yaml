@@ -57,7 +57,11 @@ runs:
     - id: delay-checkout
       run: sleep ${{ inputs.delay }}
       shell: bash
-    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    # For performance, prefer the local GitHub mirror/repository when available
+    - name: "GitHub Checkout [continue-on-error enabled]"
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      # Could fail when Gerrit repository is newly created
+      continue-on-error: true
       with:
         fetch-depth: ${{ inputs.fetch-depth }}
         repository: ${{ inputs.repository }}
